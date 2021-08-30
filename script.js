@@ -1,12 +1,14 @@
 const pup = require("puppeteer");
-let id = "wetavi1531@0pppp.com";
-let pass = "qwerty123";
+let id = "larifo6814@macauvpn.com";
+let pass = "Larifo@123";
 let browserPromise = pup.launch({
     headless: false,
     defaultViewport: false
 });
 let tab;
+let brow;
 browserPromise.then(function(browser){
+    brow = browser;
     let pagesPromise = browser.pages();
     return pagesPromise;
 }).then(function(pages){
@@ -56,6 +58,9 @@ browserPromise.then(function(browser){
             return solveQuestion("https://www.hackerrank.com" + data[i]);
         });
     }
+    return problemSolvedPromise;
+}).then(function(){
+    brow.close();
 }).catch(function(err) {
     console.log(err);
 })
@@ -64,7 +69,23 @@ function solveQuestion(url) {
     let problemUrl = url;
     let editorialurl = url.replace("?","/editorial?");
     return new Promise(function(resolve,reject){
-        tab.goto(editorialurl).then(function(){
+        tab.goto(editorialurl)
+        // .then(function(){
+        //     return new Promise(function(resolve,reject){
+        //         setTimeout(() => {
+        //             resolve();
+        //         }, 3000);
+        //     })
+        // }).then(function(){
+        //     return tab.click(".tab-list-content.tab-content.text-center")
+        // }).then(function(){
+        //     return tab.keyboard.press("Tab");
+        // }).then(function(){
+        //     return tab.keyboard.press("Enter");
+        // })
+        .then(function(){
+            return tab.waitForSelector(".hackdown-content h3", {visible: true});
+        }).then(function(){
             let languagesPromise = tab.$$(".hackdown-content h3");
             return languagesPromise;
         }).then(function(data){
@@ -89,11 +110,42 @@ function solveQuestion(url) {
                 }
             }
         }).then(function(data){
-
-            // let editorClickPromise = tab.click(".monaco-scrollable-element.editor-scrollable.vs");
-            // return tab.keyboard.down("Control").then(function(){
-            //     return tab.keyboard.press("A")
-            // })
+            return tab.goto(problemUrl).then(function(){
+                let checkboxWaitPromise = tab.waitForSelector(".custom-input-checkbox", {visible: true});
+                return checkboxWaitPromise;
+            }).then(function(){
+                let checkboxClickPromise = tab.click(".custom-input-checkbox");
+                return checkboxClickPromise;
+            }).then(function(){
+                let answerTypePromise = tab.type(".custominput",data);
+                return answerTypePromise;
+            }).then(function(){
+                let controlDownPromise = tab.keyboard.down("Control");
+                return controlDownPromise;
+            }).then(function(){
+                let aPressPromise = tab.keyboard.press("A");
+                return aPressPromise;
+            }).then(function(){
+                let xPressPromise = tab.keyboard.press("X");
+                return xPressPromise;
+            }).then(function(){
+                let editorClickPromise = tab.click(".monaco-scrollable-element.editor-scrollable.vs");
+                return editorClickPromise;
+            }).then(function(){
+                let aPressPromise = tab.keyboard.press("A");
+                return aPressPromise;
+            }).then(function(){
+                let vPressPromise = tab.keyboard.press("V");
+                return vPressPromise;
+            }).then(function(){
+                let controlUpPromise = tab.keyboard.up("Control");
+                return controlUpPromise;
+            }).then(function(){
+                return tab.click(".pull-right.btn.btn-primary.hr-monaco-submit")
+            }).then(function(){
+                return tab.waitForSelector(".congrats-wrapper", {visible: true});
+            })
+            
         }).then(function(){
             resolve();
         });
