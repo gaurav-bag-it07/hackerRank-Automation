@@ -1,6 +1,6 @@
 const pup = require("puppeteer");
-let id = "c273jjxbxi@cloud-mail.top";
-let pass = "Qwerty123@";
+let id = "larifo6814@macauvpn.com";
+let pass = "Larifo@123";
 let challenges = require("./pepchallenge");
 async function main() {
     let browser = await pup.launch({
@@ -28,6 +28,7 @@ async function main() {
     for(let i = 0; i < challenges.length; i++) {
         await createChallenge("https://www.hackerrank.com" + createChallengeUrl,challenges[i],await browser.newPage() );
     }
+    
     
 
 }
