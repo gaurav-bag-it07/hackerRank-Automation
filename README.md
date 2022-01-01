@@ -1,4 +1,7 @@
 # HackerRank-Automation
+
+<a ><img align="center" widht="200" height="200" src="https://github.com/gaurav-baghel/hackerRank-Automation/blob/main/1641054389475.png" /></a>
+
 <br />
 An automated HackerRank is a script which logs in and creates contests/challenges. Also, adds predefined questions/problems(description), problem statement, Input/Output format, constraints and test cases to it.
 <br/><br/>
